@@ -67,25 +67,24 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 
             if(reviews.length == 0){
               filtered_book["reviews"].push({username, review });
-              res.send(`${username}, your review has been added. \n ${  JSON.stringify(books[isbn],null,4)}`);
+              res.send(`${username}, your review has been added.`);
             }
             else {
                 let user = reviews.filter((y) => y.username == username);
                 if(user.length != 0){
-                  reviews.forEach((element, index) => {
-                    console.log("ele", element, index);
-                    if(element.username === username) {
+                  reviews.forEach((element) => {
+                    if(element.username == username) {
                         element.review = review;
                     }
                   });
                 //   books[isbn] = filtered_book;
-                  res.send(`Review of ${username} has been updated. \n ${  JSON.stringify(books[isbn],null,4)}`);
+                  res.send(`${username}, your review has been updated.`);
                 }
-                else 
+                else {
                   filtered_book.reviews.push({username, review });
                   console.log(filtered_book);
-                  books[isbn] = filtered_book;
-                  res.send(`${username}, your review has been added. \n ${  JSON.stringify(books[isbn],null,4)}`);
+                  res.send(`${username}, your review has been added.`);
+                }
               }
         }
         else{
@@ -108,7 +107,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
       reviews = reviews.filter((review) => review.username != username);
       console.log(reviews);
       filtered_book.reviews = reviews;
-      res.send(`${username}, your review is deleted \n ${  JSON.stringify(books[isbn],null,4)}`);
+      res.send(`${username}, your review is deleted`);
     }
     else{
       res.send("book not found");
